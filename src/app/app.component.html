@@ -1,9 +1,13 @@
 Find the words:
 <ul>
-    <li ng-repeat="word in words">{{word.word}},{{word.direction}},{{word.startRow}},{{word.startCol}},{{word.validPos}},{{word.alpha}}</li>
+    <li *ngFor="let word of words">
+        <span [ngClass]="{'word-selected': word?.userSelectedAllAlpha}">{{word?.word}}</span>, {{word?.userSelectedAllAlpha}}, {{word?.direction}},{{word?.startRow}}, {{word?.startCol}},{{word?.validPos}},{{word?.alpha}}
+    </li>
 </ul>
 <table>
-    <tr ng-repeat="r in arr track by $index">
-        <td ng-repeat="c in r track by $index" class="block" ng-click="selectBlock(c)">{{c|uppercase}}</td>
+    <tr *ngFor="let r of arr; let i = index">
+        <td *ngFor="let c of r; let j =  index" class="block" (click)="selectBlock(c, i, j)" [ngClass]="{'selected': userSelection[i][j] && userSelection[i][j].length !== 0}">{{c}}</td>
     </tr>
 </table>
+<button (click)="createNewGame()">New Game</button>
+<span *ngIf="gameCompleted">Game Completed</span>

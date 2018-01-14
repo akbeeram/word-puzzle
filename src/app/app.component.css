@@ -5,10 +5,19 @@
     border: 1px solid black;
     text-align: center;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .block:hover {
     background: crimson;
     color: white;
-    cursor: pointer;
+}
+
+.selected {
+    background: green;
+    color: white;
+}
+
+.word-selected {
+    text-decoration: line-through;
 }
