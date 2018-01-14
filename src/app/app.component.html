@@ -1,0 +1,9 @@
+Find the words:
+<ul>
+    <li ng-repeat="word in words">{{word.word}},{{word.direction}},{{word.startRow}},{{word.startCol}},{{word.validPos}},{{word.alpha}}</li>
+</ul>
+<table>
+    <tr ng-repeat="r in arr track by $index">
+        <td ng-repeat="c in r track by $index" class="block" ng-click="selectBlock(c)">{{c|uppercase}}</td>
+    </tr>
+</table>
