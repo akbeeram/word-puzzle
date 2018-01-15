@@ -23,7 +23,6 @@ export class AppComponent {
     this.gameCompleted = false;
     this.alphabets = 'abcdefghijklmnopqrstuvwxyz';
     this.arr = new Array(this.rows);
-    // this.arr.fill([]);
     for(let i=0;i<this.rows;i++){
       this.arr[i] = [];
       for(let j=0;j<this.cols;j++){
@@ -31,13 +30,6 @@ export class AppComponent {
       }
     }
     this.userSelection = JSON.parse(JSON.stringify(this.arr));
-    // _.each(this.arr, (a) => {
-    //   a = new Array(this.cols);
-    //   a.fill([]);
-    //   // _.each(a, (b) => {
-    //   //   this.arr[a][b] = '';
-    //   // })
-    // });
     this.initializeWords();
     this.directions = [
       'diagUpLeft', 
@@ -53,20 +45,21 @@ export class AppComponent {
   private initializeWords() {
     this.words = [
       {
-        word:'ANIL'
+        word:'ARROW'
       }, {
-        word: 'KUMAR'
+        word: 'FLASH'
       }, {
-        word: 'BEERAM'
-      // }, {
-      //   word: 'RAMYA'
-      // }, {
-      //   word: 'KRISHNA'
+        word: 'THRONES'
+      }, {
+        word: 'DRAMA'
+      }, {
+        word: 'WHITE'
       }
     ];
   }
   private createNewGame() : any {
     console.log('called createNewGame');
+    this.gameCompleted = false;
     this.clearGrid();
     this.initialize();
     for(let i=0;i<this.arr.length;i++) {
@@ -176,11 +169,9 @@ export class AppComponent {
     if(isOverlapping) {
       this.createNewGame();
     }
-    // this.checkForAlphaOverlap();
   }
   private randomizeDirection = (word: any) => {
     word.direction = this.directions[Math.floor(Math.random()*this.directions.length)];
-    // word.direction = 'diagUpLeft';
     this.assignStartingPlace(word);
   }
   private assignStartingPlace(word: any) {
@@ -225,24 +216,18 @@ export class AppComponent {
     return _.isEmpty(this.arr[startRow][startCol]) || this.arr[startRow][startCol] === alpha;
   }
   public selectBlock(alpha, row, col) {
-    console.log(alpha, row, col);
-    this.userSelection[row][col] = !this.userSelection[row][col];
-    this.checkIfWordsSelected();
+    if(!this.gameCompleted) {
+      this.userSelection[row][col] = !this.userSelection[row][col];
+      this.checkIfWordsSelected();
+    }
   }
   private checkIfWordsSelected(): any {
-    console.log(this.userSelection);
     _.each(this.words, (word) => {
       word.userSelects = word.userSelects || [];
       _.each(word.alpha, (pos) => {
-        // pos.selected = false;
-        if(this.userSelection[pos.row][pos.col]) {
-          // word.userSelects.push(true);
-          pos.selected = true;
-          // return false;
-        }
+        pos.selected = this.userSelection[pos.row][pos.col];
       });
       let a = word.alpha.map(pos => !!pos.selected);
-      // word.userSelectedAllAlpha = false;
       if(_.countBy(a, b => b).true === word.word.length) {
         word.userSelectedAllAlpha = true;
       } else {
@@ -256,6 +241,5 @@ export class AppComponent {
     if(_.countBy(result, a => a).true === this.words.length) {
       this.gameCompleted = true;
     }
-    console.log(result);
   }
 }
